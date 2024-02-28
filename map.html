@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="icon" href="data:">
+<title>石川県オープンデータマップ</title>
+</head><body>
+<h1>石川県オープンデータマップ</h1>
+
+<select id=seldata></select>
+<select id=selcircle>
+  <option value=0>円表示なし</option>
+  <option value=1>半径1km</option>
+  <option value=2>半径2km</option>
+  <option value=3>半径3km</option>
+</select><br>
+
+<script type="module" src="https://code4fukui.github.io/csv-map/csv-map.js"></script>
+<csv-map id=csvmap height="80vh"></csv-map>
+
+<script type="module">
+import { CSV } from "https://js.sabae.cc/CSV.js";
+import L from "https://code4sabae.github.io/leaflet-mjs/leaflet.mjs";
+
+const list = await CSV.fetchJSON("./opendata-list.csv");
+for (const item of list) {
+  if (item.map != 1) continue;
+  const opt = document.createElement("option");
+  opt.textContent = item.name;
+  opt.value = item.url;
+  seldata.appendChild(opt);
+}
+L.control.scale({ imperial:false, maxWidth: 300 }).addTo(csvmap.map);
+
+let data = null;
+
+const circles = [];
+selcircle.oninput = () => {
+  for (const c of circles) {
+    csvmap.map.removeLayer(c);
+  }
+  circles.length = 0;
+  const r = parseInt(selcircle.value);
+  for (const d of data) {
+    const circle = L.circle([d.緯度, d.経度], {
+        radius: r * 1000, // r km
+        color: "blue",
+        fillColor: "#399ade",
+        //fillColor: "#a03333",
+        fillOpacity: r ? 0.5 : 0.0,
+        //opacity: r ? 0.7 : 0.0,
+        opacity: 0.0,
+    }).addTo(csvmap.map);
+    circles.push(circle);
+  }
+};
+
+seldata.oninput = async () => {
+  const url = seldata.value;
+  const fn = url.substring(url.lastIndexOf("/") + 1);
+  console.log(fn);
+  data = await CSV.fetchJSON("data/" + fn);
+
+  console.log(data);
+  csvmap.value = data;
+  selcircle.oninput();
+};
+seldata.oninput();
+selcircle.oninput();
+
+</script>
+
+<style>
+body {
+  font-family: sans-serif;
+}
+h1 {
+  margin: .1em 0;
+}
+select {
+  margin: .2em 0;
+  padding: .2em;
+  font-size: 120%;
+}
+</style>
+
+<hr>
+DATA: <a href=https://www.pref.ishikawa.lg.jp/opendata/index.html>石川県オープンデータカタログ | 石川県</a><br>
+<a href=https://github.com/code4fukui/opendata-ishikawa/>src on GitHub</a><br>
+
+
+</body>
+</html>
