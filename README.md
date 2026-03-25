@@ -1,25 +1,25 @@
 # opendata-ishikawa
-日本語のREADMEはこちらです: [README.ja.md](README.ja.md)
 
-A web application that displays open data provided by Ishikawa Prefecture, Japan on an interactive map.
+A Web/Code project by [Code for FUKUI](https://github.com/code4fukui).
 
-## Demo
-[Ishikawa Open Data Map](https://code4fukui.github.io/opendata-ishikawa/)
+**Live demo**: https://code4fukui.github.io/opendata-ishikawa/
 
-## Features
-- Displays various types of public facilities and infrastructure using open data
-- Allows users to select different data sets and view them on the map
-- Provides an option to display circular zones around the data points
+## Technology Stack
 
-## Usage
-1. Clone the repository:
-```
-git clone https://github.com/code4fukui/opendata-ishikawa.git
-```
-2. Open the `map.html` file in a web browser to view the application.
 
-## Data / API
-The application uses open data provided by Ishikawa Prefecture, which can be accessed from the [Ishikawa Open Data Catalog](https://www.pref.ishikawa.lg.jp/opendata/index.html).
+## Project Structure
+
+- `data/` — Data files and fixtures
+
+## Installation & Setup
+
+No build step required. Clone the repository and open `index.html` in a browser,
+or visit the live demo at https://code4fukui.github.io/opendata-ishikawa/
+
+## Contributing
+
+Contributions are welcome. Please open an issue or pull request on GitHub.
 
 ## License
-This project is licensed under the [MIT License](LICENSE).
+
+MIT License. See [LICENSE](./LICENSE) for details.
